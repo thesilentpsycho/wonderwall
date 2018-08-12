@@ -8,7 +8,7 @@ class OrderList extends Component{
 
     componentDidMount(){
         fetch('http://localhost:5000/orders')
-        .then(response => {response.json();})
+        .then(results => { return results.json();})
         .then(data => {this.setState({Orders: data})});
     }
 
