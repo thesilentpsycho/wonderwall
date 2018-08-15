@@ -1,4 +1,4 @@
-SYMBOL,NAME OF COMPANY, SERIES, ISIN NUMBER
+SYMBOL,COMPANYNAME,SERIES,ISIN NUMBER
 20MICRONS,20 Microns Limited,EQ,INE144J01027
 21STCENMGM,21st Century Management Services Limited,EQ,INE253B01015
 3IINFOTECH,3i Infotech Limited,EQ,INE748C01020
@@ -713,7 +713,7 @@ JAYSREETEA,Jayshree Tea & Industries Limited,EQ,INE364A01020
 JBCHEPHARM,JB Chemicals & Pharmaceuticals Limited,EQ,INE572A01028
 JBFIND,JBF Industries Limited,BE,INE187A01017
 JBMA,JBM Auto Limited,EQ,INE927D01028
-JCHAC,Johnson Controls – Hitachi Air Conditioning India Limited,EQ,INE782A01015
+JCHAC,Johnson Controls ï¿½ Hitachi Air Conditioning India Limited,EQ,INE782A01015
 JETAIRWAYS,Jet Airways (India) Limited,EQ,INE802G01018
 JHS,JHS Svendgaard Laboratories Limited,EQ,INE544H01014
 JIKIND,JIK Industries Limited,BE,INE026B01049

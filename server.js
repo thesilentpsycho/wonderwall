@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
+var csv = require('csvtojson')
 var mongoose = require('mongoose')
 require('mongoose-double')(mongoose)
 
@@ -15,6 +16,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 mongoose.Promise = Promise
 
 var dbUrl = 'mongodb://dbuser:dbpass123@ds113482.mlab.com:13482/tradedb'
+
+let symbolsList= [];
+
+async function loadSymbolList(){
+    symbolsList = await csv().fromFile('./assets/equitylist.csv');
+}
 
 var Order = mongoose.model('Order', {
     dpid: {type: String, default : 'admin'},
@@ -54,6 +61,19 @@ var Positions = mongoose.model('Positions', {
     side: String,
     exchange: String,
     price: SchemaTypes.Double
+})
+
+loadSymbolList();
+
+
+app.get('/file', (req,res) =>{
+    var myjson = getSymbolList();
+})
+
+//this api is to get suggestions on search bar text change
+app.get('/search', (req,res) =>{
+    var query = new RegExp(req.query.q, 'i');
+    return res.send(symbolsList.filter(str => str.SYMBOL.search(query) > -1));
 })
 
 app.get('/orders', (req, res) => {

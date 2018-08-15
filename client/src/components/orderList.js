@@ -7,7 +7,7 @@ import { Component } from 'react'
 class OrderList extends Component{
 
     componentDidMount(){
-        fetch('http://localhost:5000/orders')
+        fetch('/orders')
         .then(results => { return results.json();})
         .then(Orders => {this.setState({Orders})});
     }
@@ -16,36 +16,16 @@ class OrderList extends Component{
         super(props)
         this.state = {
             Orders: [
-                {
-                    symbol: 'JPASSOCIAT',
-                    qty: 10,
-                    side: 'BUY',
-                    ordertype: 'LIMIT',
-                    exchange: 'NSE',
-                    limitprice: 24.25,
-                    triggerprice: 26.45,
-                    orderstatus: 'PENDING'
-                },
-                {
-                    symbol: 'TATAMOTORS',
-                    qty: 40,
-                    side: 'BUY',
-                    ordertype: 'LIMIT',
-                    exchange: 'NSE',
-                    limitprice: 24.25,
-                    triggerprice: 26.45,
-                    orderstatus: 'PENDING'
-                },
-                {
-                    symbol: 'SJVN',
-                    qty: 800,
-                    side: 'BUY',
-                    ordertype: 'LIMIT',
-                    exchange: 'NSE',
-                    limitprice: 24.25,
-                    triggerprice: 26.45,
-                    orderstatus: 'PENDING'
-                }
+                // {
+                //     symbol: 'JPASSOCIAT',
+                //     qty: 10,
+                //     side: 'BUY',
+                //     ordertype: 'LIMIT',
+                //     exchange: 'NSE',
+                //     limitprice: 24.25,
+                //     triggerprice: 26.45,
+                //     orderstatus: 'PENDING'
+                // }
             ]
         }
     }
