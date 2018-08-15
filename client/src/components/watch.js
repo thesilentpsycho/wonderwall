@@ -1,46 +1,45 @@
 import React, { Component } from 'react';
 import '../stylesheets/watch.css'
 
-export const SymbolList = [
-	"Alpine Meadows",
-	"Boreal",
-	"Diamond Peak",
-	"Donner Ski Ranch", 
-	"Heavenly", 
-	"Homewood",
-	"Kirkwood",
-	"Mt. Rose", 
-	"Northstar",
-	"Squaw Valley",
-	"Sugar Bowl"
-]
-
 class Watch extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      searchTerm: '',
+      results: []
+    }
+    this.searchUpdated = this.searchUpdated.bind(this)
+  }
   
+  searchUpdated (term) {
+    this.setState({searchTerm: term.target.value});
+    fetch('/search?q='+term.target.value)
+        .then(results => { return results.json();})
+        .then(results => {this.setState({results})});
+  }
+
   render() {
     return (
         <div className="sideticker">
           <div>
-            <input  ref="inputResort"
-                    type="text" 
-                    list="allsymbols" />
+            <input type="text" name="query" onChange={this.searchUpdated} />
             <datalist id="allsymbols">
-              {this.props.options.map(
+            {this.state.results.map(
                 (opt, i) => 
-                <option key={i}>{opt}</option>)}
+                <option key={i}>{opt.SYMBOL}</option>)}
             </datalist>
           </div>
           <div>
               <ul>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+              {this.state.results.map(
+                (opt, i) => 
+                <li key={i}>{opt.SYMBOL}</li>)}
               </ul>
           </div>
         </div>
     );
   }
 }
+
 
 export default Watch;
