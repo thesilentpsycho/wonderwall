@@ -73,7 +73,8 @@ app.get('/file', (req,res) =>{
 //this api is to get suggestions on search bar text change
 app.get('/search', (req,res) =>{
     var query = new RegExp(req.query.q, 'i');
-    return res.send(symbolsList.filter(str => str.SYMBOL.search(query) > -1));
+    var temp = symbolsList.filter(str => str.SYMBOL.search(query) > -1);
+    return res.send(temp.slice(0,10));
 })
 
 app.get('/orders', (req, res) => {

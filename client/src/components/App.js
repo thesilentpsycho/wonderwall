@@ -5,20 +5,6 @@ import Navbar from './navbar'
 import Watch from './watch'
 import OrderList from './orderList'
 
-const SymbolList = [
-	"Alpine Meadows",
-	"Boreal",
-	"Diamond Peak",
-	"Donner Ski Ranch", 
-	"Heavenly", 
-	"Homewood",
-	"Kirkwood",
-	"Mt. Rose", 
-	"Northstar",
-	"Squaw Valley",
-	"Sugar Bowl"
-]
-
 class App extends Component {
   render() {
     return (
@@ -27,7 +13,7 @@ class App extends Component {
           <Navbar />
         </div>
         <div className='maincontent'>
-        <Watch options={SymbolList}/>
+        <Watch />
         {(this.props.location.pathname === "/orders") ? 
           <OrderList /> : null
         }

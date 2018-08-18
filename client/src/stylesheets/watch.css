@@ -1,3 +1,44 @@
 .sideticker{
-    background: #ccc;
+    background: #eee;
+}
+
+ul{
+    padding: 2px;
+}
+
+.searchinput{
+    width: 100%; 
+  }
+
+.scripdata{
+    display:flex;
+    flex-flow: row nowrap;
+}
+
+.scripdetails{
+    display:flex;
+    flex-flow: row nowrap;
+}
+.userwatchitem{
+    display:flex;
+    flex-flow: column nowrap;
+    padding-top: 5px;
+}
+
+.scripdata > :nth-last-child(2) {
+    margin-left: auto;
+    padding: 1px;
+    background: white;
+}
+
+.scripdata > :nth-last-child(1) {
+    padding: 1px;
+    margin-left: 5px;
+    background: white;
+}
+
+.scripdata > span:first-child{
+    text-align: left;
+    font-size : 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
