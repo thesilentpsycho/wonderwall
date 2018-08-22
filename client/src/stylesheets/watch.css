@@ -6,6 +6,11 @@ ul{
     padding: 2px;
 }
 
+.scrip{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 .searchinput{
     width: 100%; 
   }

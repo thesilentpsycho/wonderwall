@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FaBeer, FaPlus, FaMinus } from 'react-icons/fa';
+import OrderModalWrapped from './ordermodal'
 import '../stylesheets/watch.css'
 
 class Watch extends Component {
@@ -70,8 +71,10 @@ class Watch extends Component {
                   <li className='userwatchitem' key={i}>
                   <div className='scrip'>
                     <span>{scrip.SYMBOL}</span>
-                    <button onClick={this.addScrip}><FaPlus size={20}/></button>
-                    <button><FaMinus size={20}/></button>
+                    <OrderModalWrapped side='BUY'
+                                       symbol = {scrip.SYMBOL}/>
+                    <OrderModalWrapped side='SELL'
+                                       symbol = {scrip.SYMBOL}/>
                   </div>
                   </li>
                 )}
