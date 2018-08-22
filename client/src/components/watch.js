@@ -28,7 +28,10 @@ class Watch extends Component {
   }
 
   addScrip(scrip){
-    this.setState({userwatch : [...this.state.userwatch, scrip]});
+    this.setState({userwatch : [...this.state.userwatch, scrip],
+                  searchTerm:'',
+                  results: []
+    });
   }
 
   removeScrip(scrip){
@@ -40,7 +43,7 @@ class Watch extends Component {
     return (
         <div className="sideticker">
           <div>
-            <input className='searchinput' type="text" name="query" onChange={this.searchUpdated} />
+            <input className='searchinput' type="text" value={this.state.searchTerm} name="query" onChange={this.searchUpdated} />
             <datalist id="allsymbols">
             {this.state.results.map(
                 (opt, i) => 
