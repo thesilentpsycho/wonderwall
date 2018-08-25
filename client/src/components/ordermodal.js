@@ -38,7 +38,11 @@ async function placeOrder(order){
                           if(response.status === 200){
                           ToastStore.success('Hey, it worked !');
                           }
-                        });
+                          else{
+                            ToastStore.error(`Some Error Occured`);
+                          }
+                        })
+                        .catch((error) => {ToastStore.error(`Please try again`);})
   console.log(resp);
 }
 
