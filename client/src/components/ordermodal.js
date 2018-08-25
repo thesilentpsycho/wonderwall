@@ -22,6 +22,26 @@ function getModalStyle() {
   };
 }
 
+async function placeOrder(order){
+  console.log(order);
+  var resp = await fetch('http://localhost:5000/order', {
+                          method: "POST",
+                          // mode: "no-cors",
+                          headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(order)
+                        })
+                        .then(function(response) {
+                          return response.json();
+                        })
+                        .then(function(body){
+                          console.log(body);
+                        });
+  console.log(resp);
+}
+
 const styles = theme => ({
   paper: {
     position: 'absolute',
@@ -41,6 +61,9 @@ class SimpleModal extends React.Component {
     this.handleOrderTypeChange = this.handleOrderTypeChange.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleQtyChange = this.handleQtyChange.bind(this);
+    this.handleLimitPriceChange = this.handleLimitPriceChange.bind(this);
+    this.handleTriggerPriceChange = this.handleTriggerPriceChange.bind(this);
   }
   
   state = {
@@ -67,11 +90,42 @@ class SimpleModal extends React.Component {
     });
   }
 
+  handleQtyChange = (changeEvent) => {
+    this.setState({
+      qty: changeEvent.target.value
+    });
+  }
+
+  handleLimitPriceChange = (changeEvent) => {
+    this.setState({
+      limitprice: changeEvent.target.value
+    });
+  }
+
+  handleTriggerPriceChange = (changeEvent) => {
+    this.setState({
+      triggerprice: changeEvent.target.value
+    });
+  }
+
   handleSubmit = (event) =>{
     event.preventDefault();
+    console.log('qty:',this.state.qty);
+    
+    var order = {
+      symbol: this.state.symbol,
+      qty: this.state.qty,
+      side: this.state.side,
+      ordertype: this.state.selectedOrderType,
+      exchange: this.state.exchange,
+      limitprice: this.state.limitprice,
+      triggerprice: this.state.triggerprice,
+      orderstatus: 'POSTED'
+    }
+    placeOrder(order);
     this.handleClose();
   }
-  
+
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -139,15 +193,15 @@ class SimpleModal extends React.Component {
               <div className="orderdiv3">
               <div>
                 <label>Qty</label>
-                <input type="number" defaultValue={this.state.qty} placeholder="" autoCorrect="off" min="1" step="1" noerror="true" staticlabel="true" animate="true" label="Qty" />
+                <input type="number" defaultValue={this.state.qty} onChange={this.handleQtyChange} placeholder="" autoCorrect="off" min="1" step="1" noerror="true" staticlabel="true" animate="true" label="Qty" />
               </div>
               <div>
               <label>Price</label>
-              <input type="number" defaultValue={this.state.limitprice} placeholder="" autoCorrect="off" min="0" step="0.05" disabled="false" noerror="true" staticlabel="true" animate="true" label="Price" />
+              <input type="number" defaultValue={this.state.limitprice} onChange={this.handleLimitPriceChange} placeholder="" autoCorrect="off" min="0" step="0.05" disabled="false" noerror="true" staticlabel="true" animate="true" label="Price" />
               </div>
               <div>
               <label>Trigger</label>
-              <input type="number" defaultValue={this.state.triggerprice} placeholder="" autoCorrect="off" min="0" step="0.05" disabled="false" noerror="true" staticlabel="true" animate="true" label="Trigger" />
+              <input type="number" defaultValue={this.state.triggerprice} onChange={this.handleTriggerPriceChange} placeholder="" autoCorrect="off" min="0" step="0.05" disabled="false" noerror="true" staticlabel="true" animate="true" label="Trigger" />
               </div>
               </div>
               <div className="orderdiv4">
