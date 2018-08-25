@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import '../stylesheets/buymodal.css'
+import '../stylesheets/buymodal.css';
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 // function rand() {
 //   return Math.round(Math.random() * 20) - 10;
@@ -34,10 +35,9 @@ async function placeOrder(order){
                           body: JSON.stringify(order)
                         })
                         .then(function(response) {
-                          return response.json();
-                        })
-                        .then(function(body){
-                          console.log(body);
+                          if(response.status === 200){
+                          ToastStore.success('Hey, it worked !');
+                          }
                         });
   console.log(resp);
 }
@@ -139,6 +139,7 @@ class SimpleModal extends React.Component {
 
     return (
       <div>
+        <ToastContainer store={ToastStore}/>
         <Button onClick={this.handleOpen}>{this.props.side === 'BUY' ? 'BUY' : 'SELL'}</Button>
         <Modal
           aria-labelledby="simple-modal-title"
