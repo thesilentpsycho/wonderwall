@@ -103,7 +103,20 @@ app.post('/order',async (req, res) =>{
 
         var savedOrder = await order.save()
         console.log('saved')
-        res.sendStatus(200)
+        res.sendStatus(200);
+    } catch(error){
+        res.sendStatus(500)
+        return console.error(error)
+    } finally{
+        console.log('Post order called')
+    }
+})
+
+app.post('/login',async (req, res) =>{
+    console.log('received login request',req.body)
+    try{
+        //req.body
+        res.sendStatus(200);
     } catch(error){
         res.sendStatus(500)
         return console.error(error)
