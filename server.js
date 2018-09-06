@@ -3,18 +3,30 @@ var bodyParser = require('body-parser')
 var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
+var csv = require('csvtojson')
 var mongoose = require('mongoose')
 require('mongoose-double')(mongoose)
 
 var SchemaTypes = mongoose.Schema.Types;
 
 app.use(express.static(__dirname))
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 mongoose.Promise = Promise
 
 var dbUrl = 'mongodb://dbuser:dbpass123@ds113482.mlab.com:13482/tradedb'
+
+let symbolsList= [];
+
+async function loadSymbolList(){
+    symbolsList = await csv().fromFile('./assets/equitylist.csv');
+}
 
 var Order = mongoose.model('Order', {
     dpid: {type: String, default : 'admin'},
@@ -56,6 +68,20 @@ var Positions = mongoose.model('Positions', {
     price: SchemaTypes.Double
 })
 
+loadSymbolList();
+
+
+app.get('/file', (req,res) =>{
+    var myjson = getSymbolList();
+})
+
+//this api is to get suggestions on search bar text change
+app.get('/search', (req,res) =>{
+    var query = new RegExp(req.query.q, 'i');
+    var temp = symbolsList.filter(str => str.SYMBOL.search(query) > -1);
+    return res.send(temp.slice(0,10));
+})
+
 app.get('/orders', (req, res) => {
     Order.find({}, (err, orders) => {
         res.send(orders)
@@ -77,7 +103,20 @@ app.post('/order',async (req, res) =>{
 
         var savedOrder = await order.save()
         console.log('saved')
-        res.sendStatus(200)
+        res.sendStatus(200);
+    } catch(error){
+        res.sendStatus(500)
+        return console.error(error)
+    } finally{
+        console.log('Post order called')
+    }
+})
+
+app.post('/login',async (req, res) =>{
+    console.log('received login request',req.body)
+    try{
+        //req.body
+        res.sendStatus(200);
     } catch(error){
         res.sendStatus(500)
         return console.error(error)

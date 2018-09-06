@@ -1,0 +1,17 @@
+.orderdiv1{
+    padding: 0px;
+    display:flex;
+    flex-flow: column nowrap;
+}
+
+.orderdiv2{
+    padding: 10px;
+    display:flex;
+    flex-flow: row nowrap;
+}
+
+.orderdiv3{
+    padding: 10px;
+    display:flex;
+    flex-flow: row nowrap;
+}
