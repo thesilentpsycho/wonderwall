@@ -1,47 +1,92 @@
 import React, { Component } from 'react';
+import { FaBeer, FaPlus, FaMinus } from 'react-icons/fa';
+import OrderModalWrapped from './ordermodal'
 import '../stylesheets/watch.css'
 
 class Watch extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      searchTerm: '',
+      results: [],
+      userwatch: []
+    }
+    this.searchUpdated = this.searchUpdated.bind(this)
+    this.addScrip = this.addScrip.bind(this)
+  }
+  
+  searchUpdated (term) {
+    this.setState({searchTerm: term.target.value});
+    if(term.target.value === ''){
+      this.setState({results : []});
+    }
+    else{
+      fetch('/search?q='+term.target.value)
+          .then(results => { return results.json();})
+          .then(results => {this.setState({results})});
+    }
+  }
+
+  addScrip(scrip){
+    this.setState({userwatch : [...this.state.userwatch, scrip],
+                  searchTerm:'',
+                  results: []
+    });
+  }
+
+  removeScrip(scrip){
+    let temp = this.state.userwatch.filter(el => el.SYMBOL !== scrip.SYMBOL);
+    this.setState({userwatch: temp});
+  }
+
   render() {
     return (
         <div className="sideticker">
-          <div class="container-fluid">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for scrips"/>
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit">
-                <i class="glyphicon glyphicon-search"></i>
-              </button>
-            </div>
+          <div>
+            <input className='searchinput' type="text" value={this.state.searchTerm} name="query" onChange={this.searchUpdated} />
+            <datalist id="allsymbols">
+            {this.state.results.map(
+                (opt, i) => 
+                <option key={i}>{opt.SYMBOL}</option>)}
+            </datalist>
           </div>
           <div>
-              <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                    <span>
-                      <h5>Cras justo odio</h5>
-                    </span>
-                    <span>
-                      <span class="btn btn-success">
-                          <i class="glyphicon glyphicon-plus"></i>
-                      </span>
-                      <span class="btn btn-danger">
-                          <i class="glyphicon glyphicon-minus"></i>
-                      </span>
-                      <span class="btn btn-default">C</span>
-                    </span>
-                  </li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
+              <ul>
+              {this.state.results.map(
+                (opt, i) => 
+                <li className='userwatchitem' key={i}>
+                  <div className='scripdata'>
+                    <span>{opt.SYMBOL}</span>
+                    <button onClick={() => this.addScrip(opt)}><FaPlus size={20}/></button>
+                    <button><FaMinus size={20}/></button>
+                  </div>
+                  <div className='scripdetails'>
+                    <div>{opt.COMPANYNAME}</div>
+                    <div>{opt.SERIES}</div>
+                  </div>
+                </li>)}
+              </ul>
           </div>
-    </div>
-    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-    </div>
+          <div>
+              <ul>
+              {this.state.userwatch.map(
+                (scrip, i) => 
+                  <li className='userwatchitem' key={i}>
+                  <div className='scrip'>
+                    <span>{scrip.SYMBOL}</span>
+                    <OrderModalWrapped side='BUY'
+                                       symbol = {scrip.SYMBOL}/>
+                    <OrderModalWrapped side='SELL'
+                                       symbol = {scrip.SYMBOL}/>
+                  </div>
+                  </li>
+                )}
+              </ul>
+          </div>
         </div>
     );
   }
 }
+
 
 export default Watch;

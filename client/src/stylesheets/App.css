@@ -25,10 +25,12 @@ th{
 td{
   text-align: left;
 }
-.maincontent > div:nth-child(odd){
-  background: #222;
-}
+/* .maincontent > div:nth-child(odd){
+  background: #eee;
+} */
+
 .maincontent {
+  background: #eee;
   display:grid;
   grid-template-columns: 3fr 7fr;
 }
